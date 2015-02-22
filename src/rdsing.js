@@ -7,15 +7,13 @@ import _ from "lodash";
 import moment from "moment";
 import "babel/polyfill";
 
-/**
- * Print an error message and exit with code 1.
- * @param  {Error} err Error we're failing for.
- */
+/** Print an error message and exit with code 1. */
 function die(err) {
   console.error(`An error occured! ${err.message}`);
   process.exit(1);
 }
 
+/** Get the latest snapshot for an rds instance. */
 function latestSnapshot(rds, name) {
   return new Promise(resolve => {
     rds.describeDBSnapshots({
@@ -28,6 +26,10 @@ function latestSnapshot(rds, name) {
   });
 }
 
+/**
+ * Restore snapshot. Curried, so calling with less than all arguments returns
+ * a new one taking the remainder.
+ */
 let restoreSnapshot = _.curry((rds, opts, snapshot) => {
   if (opts.debug)
     console.log("Restoring the latest snapshot available...");
@@ -52,6 +54,11 @@ let restoreSnapshot = _.curry((rds, opts, snapshot) => {
   });
 });
 
+/**
+ * Wait for the instance to become available.
+ * Curried, so calling with less than all arguments returns
+ * a new one taking the remainder.
+*/
 let waitForInstance = _.curry((rds, opts, instance) => {
   if (opts.debug)
     console.log("Waiting for the instance to become available...")
@@ -73,6 +80,10 @@ let waitForInstance = _.curry((rds, opts, instance) => {
   });
 });
 
+/**
+ * Add passed security groups, if any, to the instance.
+ * @function addSecurityGroups
+ */
 let addSecurityGroups = _.curry((rds, opts, instance) => {
   return new Promise(resolve => {
     if (opts.group.length != -1 ) {
