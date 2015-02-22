@@ -155,7 +155,7 @@ function parseArgs() {
 
   opts.command('restore')
     .callback(restore)
-    .options(_.merge(standardOpts, {
+    .options(_.merge({
       dbname: {
         abbr: 'd',
         help: "Database name in the restored instance."
@@ -183,17 +183,17 @@ function parseArgs() {
         help: "Security groups to add to the instance...",
         list: true
       }
-    }))
+    }, standardOpts))
     .help("Restore the latest RDS snapshot available.");
 
   opts.command('destroy')
     .callback(destroy)
-    .options(_.merge(standardOpts, {
+    .options(_.merge({
       snapshot: {
         abbr: 's',
         help: "If specified, creates a final snapshot with this name."
       }
-    }))
+    }, standardOpts))
     .help("Delete an RDS instance.");
 
   return opts.parse();
