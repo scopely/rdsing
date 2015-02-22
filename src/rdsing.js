@@ -92,7 +92,7 @@ let addSecurityGroups = _.curry((rds, opts, instance) => {
         DBSecurityGroups: opts.group
       }, (err, data) => {
         if (err) die(err);
-        resolve(data);
+        resolve(data.DBInstance);
       });
     } else {
       resolve(instance);
