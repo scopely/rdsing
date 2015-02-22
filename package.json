@@ -1,0 +1,21 @@
+{
+  "name": "rdsing",
+  "version": "0.1.0",
+  "main": "bin/rdsing",
+  "dependencies": {
+    "aws-sdk": "^2.1.13",
+    "lodash": "^3.2.0",
+    "moment": "^2.9.0",
+    "nomnom": "^1.8.1"
+  },
+  "bin": {
+    "rdsing": "lib/rdsing.js"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-babel": "^4.0.0",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-jsdoc": "raynes/grunt-jsdoc#e53dec432f44900",
+    "load-grunt-tasks": "^3.1.0"
+  }
+}
