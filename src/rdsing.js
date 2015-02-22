@@ -113,8 +113,18 @@ function restore(opts) {
     .then(console.log);
 }
 
-function destroy() {
-  // TODO
+/**
+ * Destroy an RDS snapshot.
+ */
+function destroy(opts) {
+  let rds = new AWS.RDS({region: opts.region});
+  return new Promise(resolve => {
+    if (opts.debug) console.log(`Destroying RDS snapshot ${opts.name}`);
+    rds.deleteDBInstance({
+      DBInstanceIdentifier: opts.name,
+      SkipSnapshot: true
+    });
+  });
 }
 
 /**
@@ -177,7 +187,12 @@ function parseArgs() {
 
   opts.command('destroy')
     .callback(destroy)
-    .options(standardOpts)
+    .options(_.merge(standardOpts, {
+      snapshot: {
+        abbr: 's',
+        help: "If specified, creates a final snapshot with this name."
+      }
+    }))
     .help("Delete an RDS instance.");
 
   return opts.parse();
