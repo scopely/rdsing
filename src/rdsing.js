@@ -122,7 +122,8 @@ function destroy(opts) {
     if (opts.debug) console.log(`Destroying RDS snapshot ${opts.name}`);
     rds.deleteDBInstance({
       DBInstanceIdentifier: opts.name,
-      SkipSnapshot: true
+      SkipFinalSnapshot: !!!opts.snapshot,
+      FinalDBSnapshotIdentifier: opts.snapshot
     });
   });
 }
