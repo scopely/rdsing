@@ -22,7 +22,16 @@ module.exports = function(grunt) {
       }
     },
 
-    jsdoc : {
+    'gh-pages': {
+      options: {
+        base: 'doc'
+      },
+      all: {
+        src: ['**']
+      }
+    },
+
+    jsdoc: {
       options: {
           destination: 'doc'
       },
@@ -34,6 +43,13 @@ module.exports = function(grunt) {
               src: '**/*.js'
             }
           ]
+      }
+    },
+
+    release: {
+      options: {
+        beforeReleaseTasks: ['babel'],
+        afterReleaseTasks: ['jsdoc', 'gh-pages']
       }
     }
   });
