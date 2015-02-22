@@ -58,7 +58,7 @@ let restoreSnapshot = _.curry((rds, opts, snapshot) => {
  * Wait for the instance to become available.
  * Curried, so calling with less than all arguments returns
  * a new one taking the remainder.
-*/
+ */
 let waitForInstance = _.curry((rds, opts, instance) => {
   if (opts.debug)
     console.log("Waiting for the instance to become available...")
@@ -82,7 +82,6 @@ let waitForInstance = _.curry((rds, opts, instance) => {
 
 /**
  * Add passed security groups, if any, to the instance.
- * @function addSecurityGroups
  */
 let addSecurityGroups = _.curry((rds, opts, instance) => {
   return new Promise(resolve => {
@@ -103,7 +102,6 @@ let addSecurityGroups = _.curry((rds, opts, instance) => {
 
 /**
  * Restore a db instance.
- * @param  {Object} opts Options from nomnom.
  */
 function restore(opts) {
   let rds = new AWS.RDS({region: opts.region});
@@ -121,7 +119,6 @@ function destroy() {
 
 /**
  * Parse commands and their args with nomnom.
- * @returns {Object}
  */
 function parseArgs() {
   let standardOpts = {
