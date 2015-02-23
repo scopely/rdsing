@@ -36,13 +36,13 @@ module.exports = function(grunt) {
           destination: 'doc'
       },
       dist: {
-          files: [
-            {
-              expand: true,
-              cwd: 'src',
-              src: '**/*.js'
-            }
-          ]
+        files: [
+          {
+            expand: true,
+            cwd: 'src',
+            src: '**/*.js'
+          }
+        ]
       }
     },
 
