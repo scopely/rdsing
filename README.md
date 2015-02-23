@@ -64,3 +64,8 @@ programs.
 Rdsing is designed as a functional promise pipeline of sorts. Operations to
 perform with AWS are curried functions that return a promise and those are
 piped together to perform operations.
+
+## API Docs
+
+If for some reason you'd like to look at htmlized api docs generated with jsdoc,
+[head on over here](https://scopely.github.io/rdsing).
