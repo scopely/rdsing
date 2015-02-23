@@ -80,9 +80,7 @@ let waitForInstance = _.curry((rds, opts, instance) => {
   });
 });
 
-/**
- * Add passed security groups, if any, to the instance.
- */
+/** Add passed security groups, if any, to the instance. */
 let addSecurityGroups = _.curry((rds, opts, instance) => {
   return new Promise(resolve => {
     if (opts.group.length != -1 ) {
@@ -100,9 +98,7 @@ let addSecurityGroups = _.curry((rds, opts, instance) => {
   });
 });
 
-/**
- * Restore a db instance.
- */
+/** Restore a db instance. */
 function restore(opts) {
   let rds = new AWS.RDS({region: opts.region});
   latestSnapshot(rds, opts.name)
@@ -113,9 +109,7 @@ function restore(opts) {
     .then(console.log);
 }
 
-/**
- * Destroy an RDS snapshot.
- */
+/** Destroy an RDS snapshot. */
 function destroy(opts) {
   let rds = new AWS.RDS({region: opts.region});
   return new Promise(resolve => {
@@ -128,9 +122,7 @@ function destroy(opts) {
   });
 }
 
-/**
- * Parse commands and their args with nomnom.
- */
+/** Parse commands and their args with nomnom. */
 function parseArgs() {
   let standardOpts = {
     debug: {
