@@ -1,6 +1,6 @@
 {
   "name": "rdsing",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "bin/rdsing",
   "dependencies": {
     "aws-sdk": "^2.1.13",
