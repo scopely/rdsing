@@ -1,6 +1,7 @@
 {
   "name": "rdsing",
   "version": "0.1.1",
+  "homepage": "https://github.com/scopely/rdsing",
   "main": "bin/rdsing",
   "dependencies": {
     "aws-sdk": "^2.1.13",
