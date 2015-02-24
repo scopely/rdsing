@@ -32,7 +32,7 @@ function latestSnapshot(rds, name) {
  */
 let restoreSnapshot = _.curry((rds, opts, snapshot) => {
   if (opts.debug)
-    console.log("Restoring the latest snapshot available...");
+    console.error("Restoring the latest snapshot available...");
 
   return new Promise(resolve => {
     // Generate instance identifier.
@@ -61,7 +61,7 @@ let restoreSnapshot = _.curry((rds, opts, snapshot) => {
  */
 let waitForInstance = _.curry((rds, opts, instance) => {
   if (opts.debug)
-    console.log("Waiting for the instance to become available...")
+    console.error("Waiting for the instance to become available...")
 
   return new Promise(resolve => {
     var interval = setInterval(() => {
@@ -70,7 +70,7 @@ let waitForInstance = _.curry((rds, opts, instance) => {
       }, (err, data) => {
         instance = data.DBInstances[0];
         let status = instance.DBInstanceStatus;
-        if (opts.debug) console.log(status);
+        if (opts.debug) console.error(status);
         if (status === 'available') {
           clearInterval(interval);
           resolve(instance);
@@ -84,7 +84,7 @@ let waitForInstance = _.curry((rds, opts, instance) => {
 let addSecurityGroups = _.curry((rds, opts, instance) => {
   return new Promise(resolve => {
     if (opts.group.length != -1 ) {
-      if (opts.debug) console.log(`Adding security groups ${opts.group}`);
+      if (opts.debug) console.error(`Adding security groups ${opts.group}`);
       rds.modifyDBInstance({
         DBInstanceIdentifier: instance.DBInstanceIdentifier,
         DBSecurityGroups: opts.group
@@ -98,22 +98,27 @@ let addSecurityGroups = _.curry((rds, opts, instance) => {
   });
 });
 
+/** Stringify the instance data and output it. */
+function writeJson(instance) {
+  console.log(JSON.stringify(instance));
+}
+
 /** Restore a db instance. */
 function restore(opts) {
   let rds = new AWS.RDS({region: opts.region});
   latestSnapshot(rds, opts.name)
-    .then(restoreSnapshot(rds, opts))
-    .then(waitForInstance(rds, opts))
-    .then(addSecurityGroups(rds, opts))
-    .then(waitForInstance(rds, opts))
-    .then(console.log);
+    .then(restoreSnapshot(rds, opts), die)
+    .then(waitForInstance(rds, opts), die)
+    .then(addSecurityGroups(rds, opts), die)
+    .then(waitForInstance(rds, opts), die)
+    .then(writeJson, die);
 }
 
 /** Destroy an RDS snapshot. */
 function destroy(opts) {
   let rds = new AWS.RDS({region: opts.region});
   return new Promise(resolve => {
-    if (opts.debug) console.log(`Destroying RDS snapshot ${opts.name}`);
+    if (opts.debug) console.error(`Destroying RDS snapshot ${opts.name}`);
     rds.deleteDBInstance({
       DBInstanceIdentifier: opts.name,
       SkipFinalSnapshot: !!!opts.snapshot,
