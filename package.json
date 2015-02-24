@@ -1,6 +1,6 @@
 {
   "name": "rdsing",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "homepage": "https://github.com/scopely/rdsing",
   "main": "bin/rdsing",
   "dependencies": {
