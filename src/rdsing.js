@@ -1,11 +1,8 @@
 #!/usr/bin/env node
-"use babel";
-
 import AWS from 'aws-sdk';
 import opts from "nomnom";
 import _ from "lodash";
 import moment from "moment";
-import "babel/polyfill";
 
 /** Print an error message and exit with code 1. */
 function die(err) {
@@ -115,16 +112,22 @@ function restore(opts) {
 }
 
 /** Destroy an RDS snapshot. */
-function destroy(opts) {
+function destroyInstance(opts) {
   let rds = new AWS.RDS({region: opts.region});
-  return new Promise(resolve => {
-    if (opts.debug) console.error(`Destroying RDS snapshot ${opts.name}`);
+  return new Promise((resolve, reject) => {
+    if (opts.debug) console.error(`Starting delete for snapshot ${opts.name}`);
     rds.deleteDBInstance({
       DBInstanceIdentifier: opts.name,
-      SkipFinalSnapshot: !!!opts.snapshot,
+      SkipFinalSnapshot: !opts.snapshot,
       FinalDBSnapshotIdentifier: opts.snapshot
-    });
+    }, (err, data) => err ? reject(err) : resolve(data));
   });
+}
+
+function destroy(opts) {
+  destroyInstance(opts)
+    .then(() => console.log("Done!"))
+      .catch((err) => console.trace(err));
 }
 
 /** Parse commands and their args with nomnom. */
