@@ -1,6 +1,10 @@
 module.exports = function(grunt) {
 
-  require("load-grunt-tasks")(grunt);
+  grunt.loadNpmTasks('grunt-babel');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-gh-pages');
+  grunt.loadNpmTasks('grunt-jsdoc');
+  grunt.loadNpmTasks('grunt-release');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
