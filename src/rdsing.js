@@ -80,7 +80,7 @@ let waitForInstance = _.curry((rds, opts, instance) => {
 /** Add passed security groups, if any, to the instance. */
 let addSecurityGroups = _.curry((rds, opts, instance) => {
   return new Promise(resolve => {
-    if (opts.group.length != -1 ) {
+    if (opts.group.length != -1) {
       if (opts.debug) console.error(`Adding security groups ${opts.group}`);
       rds.modifyDBInstance({
         DBInstanceIdentifier: instance.DBInstanceIdentifier,
